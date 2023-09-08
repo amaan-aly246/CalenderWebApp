@@ -1,9 +1,9 @@
 import React from "react"
 import "./EventPart.css"
-import "../../../App.css"
+import "../../App.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
-import listItem from "../../../data/listItem"
+import listItem from "../../data/listItem"
 function EventPart() {
   return (
     <section className="Event-Container">
