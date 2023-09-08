@@ -1,0 +1,23 @@
+:root{
+    --primaryColor: #383d4f;
+    --primaryColor2: rgb(112, 119, 146);
+    --secondaryColor: #ece8ef;
+    --tertiaryColor: #736293;
+}
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-transform:capitalize ;
+    background-color: var(--primaryColor);
+    overflow: hidden;
+}
+
+main{
+    border: 2px solid black;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+
+}
+
