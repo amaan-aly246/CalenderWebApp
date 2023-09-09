@@ -49,4 +49,8 @@ span.year {
   background-color: whitesmoke;
 }
 
+.empty-grid{
+  z-index: -10000;
+}
+
 
