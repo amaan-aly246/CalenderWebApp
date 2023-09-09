@@ -7,14 +7,18 @@ import "../../App.css"
 import { renderDates } from "./renderDates"
 export default function CalenderPart() {
   const currentDate = new Date()
+  // console.log(currentDate.getDate())
+
   const [monthIndex, setMonthIndex] = useState(currentDate.getMonth())
   const [year, setYear] = useState(currentDate.getFullYear())
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(0)
   const [totalDaysInMonth, setTotalDaysInMonth] = useState(0)
+  const [inputValue, setInputValue] = useState("")
 
   useEffect(() => {
-    const firstDay = new Date(year, monthIndex, 1).getDay()
+    const completeDate = new Date(year, monthIndex, 1)
     const lastDay = new Date(year, monthIndex + 1, 0).getDate()
+    const firstDay = completeDate.getDay()
     setFirstDayOfMonth(firstDay)
     setTotalDaysInMonth(lastDay)
   }, [year, monthIndex])
@@ -39,7 +43,21 @@ export default function CalenderPart() {
       }
     })
   }
-
+  const handleOnchange = (event) => {
+    // console.log(event.target.value)
+    setInputValue(event.target.value)
+  }
+  const handleOnKeyUp = (event) => {
+    if (event.key == "Enter") {
+      event.target.value = ""
+      event.target.blur() // remove focus from the  input
+      // console.log(inputValue.split(":"))
+      setYear(inputValue.split(":")[1])
+      parseInt(inputValue.split(":")[0]) - 1 > 12
+        ? alert("Invalid month ")
+        : setMonthIndex(parseInt(inputValue.split(":")[0]) - 1)
+    }
+  }
   return (
     <section className="Calender-Container">
       <header className="Calender-header">
@@ -66,10 +84,18 @@ export default function CalenderPart() {
               
             </div>
           ))} */}
-          {renderDates(firstDayOfMonth, totalDaysInMonth)}
+          {renderDates(firstDayOfMonth, totalDaysInMonth, monthIndex, year)}
         </div>
       </section>
-      <footer className="Calender-footer"></footer>
+      <footer className="Calender-footer">
+        <input
+          type="text"
+          placeholder="mm:yyyy"
+          className="Calender-input"
+          onChange={handleOnchange}
+          onKeyUp={handleOnKeyUp}
+        />
+      </footer>
     </section>
   )
 }
