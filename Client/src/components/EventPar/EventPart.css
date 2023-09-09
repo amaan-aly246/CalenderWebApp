@@ -61,6 +61,10 @@
 .loginBtn {
   margin-left: -90px;
 }
+.event-footer > button:visited {
+  color: none;
+  color: var(--primaryColor2);
+}
 
 .createEvent {
   position: relative;
@@ -84,4 +88,12 @@
 /* Show the tooltip on hover */
 .createEvent:hover::after {
   opacity: 1;
+}
+
+.nav-link {
+  color: var(--primaryColor2);
+  font-size: 1em;
+  opacity: 1;
+  cursor: pointer;
+  text-decoration: none;
 }

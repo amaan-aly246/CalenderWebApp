@@ -4,8 +4,8 @@ import "../../App.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import listItem from "../../data/listItem"
-import { months , fullDays } from "../../data/Data"
-
+import { months, fullDays } from "../../data/Data"
+import { Link } from "react-router-dom"
 function EventPart() {
   const currentDate = new Date()
   // console.log(currentDate.getMonth())
@@ -29,8 +29,16 @@ function EventPart() {
         </ul>
       </section>
       <footer className="event-footer">
-        <button className="loginBtn">Login</button>
-        <button className="registerBtn">Register</button>
+        <button className="loginBtn">
+          <Link to={"login"} className="nav-link">
+            Login
+          </Link>
+        </button>
+        <button className="registerBtn">
+          <Link to={"register"} className="nav-link">
+            Register
+          </Link>
+        </button>
         <button className="createEvent">
           <FontAwesomeIcon
             icon={faCirclePlus}
@@ -40,6 +48,11 @@ function EventPart() {
       </footer>
     </section>
   )
+}
+{
+  /* <Link to={"/"}className="logo">
+MyBlog
+</Link> */
 }
 
 export default EventPart
