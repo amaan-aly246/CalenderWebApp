@@ -1,6 +1,6 @@
 import React from "react"
-import EventPart from "../EventPar/EventPart"
-import CalenderPart from "../CalenderPart/CalenderPart"
+import EventPart from "../components/EventPar/EventPart"
+import CalenderPart from "../components/CalenderPart/CalenderPart"
 
 export default function Structure() {
   return (

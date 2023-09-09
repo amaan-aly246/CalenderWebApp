@@ -36,7 +36,7 @@ export default function CalenderPart() {
   const handlerRightBtn = () => {
     setMonthIndex((nextMonthIndex) => {
       if (nextMonthIndex >= 11) {
-        setYear(year + 1)
+        setYear(parseInt(year) + 1)
         return 0
       } else {
         return nextMonthIndex + 1
@@ -51,11 +51,18 @@ export default function CalenderPart() {
     if (event.key == "Enter") {
       event.target.value = ""
       event.target.blur() // remove focus from the  input
-      // console.log(inputValue.split(":"))
-      setYear(inputValue.split(":")[1])
-      parseInt(inputValue.split(":")[0]) - 1 > 12
-        ? alert("Invalid month ")
-        : setMonthIndex(parseInt(inputValue.split(":")[0]) - 1)
+      console.log(inputValue.split(":")[1].length)
+      if (
+        parseInt(inputValue.split(":")[0]) - 1 > 12 ||
+        parseInt(inputValue.split(":")[1].length) != 4
+      ) {
+        alert("Invalid input, make sure to add ':'.  ")
+        setYear(year)
+        setMonthIndex(monthIndex)
+      } else {
+        setMonthIndex(parseInt(inputValue.split(":")[0]) - 1)
+        setYear(inputValue.split(":")[1])
+      }
     }
   }
   return (
