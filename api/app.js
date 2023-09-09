@@ -10,9 +10,9 @@ app.use(express.json());
 // Routes
 app.use('/api/tasks', tasks);
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello World');
+// });
 const start = async () => {
     try {
         await connectDB(process.env.connectionString);
