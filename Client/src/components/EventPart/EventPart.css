@@ -6,14 +6,14 @@
   background-color: var(--primaryColor);
   color: var(--secondaryColor);
 }
-.wrapper{
+.wrapper {
   position: relative;
 }
 
-.dustbin{
+.dustbin {
   position: absolute;
   top: 10px;
-  left : 30em;
+  left: 30em;
   cursor: pointer;
 }
 .event-header {
@@ -105,4 +105,20 @@
   opacity: 1;
   cursor: pointer;
   text-decoration: none;
+}
+
+@media (max-width: 1200px) {
+  .event-footer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .event-footer > button {
+    margin: 0.5em 0;
+  }
+
+  .registerBtn,
+  .loginBtn {
+    margin-left: 0;
+  }
 }

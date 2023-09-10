@@ -88,3 +88,42 @@ span.year {
   outline: none;
 }
 
+
+
+
+/* Styles for small screens */
+@media (max-width: 768px) {
+  .Calender-Container {
+    width: 100%; 
+    padding: 1em; 
+    margin-left: 0;
+    border-radius: 0; 
+  }
+
+  .Calender-header {
+    font-size: 1.5em; 
+    margin-top: 0; 
+  }
+
+  span.month {
+    margin-right: 0; 
+  }
+  span.year {
+    margin-right: 0; 
+  }
+
+  
+  .grid-item {
+    height: 2.5em; 
+  }
+
+  .Calender-footer {
+    transform: translateY(-20px); 
+    height: 30px; 
+  }
+
+  .Calender-input {
+    width: 80px; 
+    height: 28px; 
+  }
+}
