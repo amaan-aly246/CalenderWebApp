@@ -11,11 +11,16 @@ const TaskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    time: {
+    timeFrom: {
         type: String,
         required: [true, 'must provide time'],
         trim: true,
-    }
+    },
+    timeTo: {
+        type: String,
+        required: [true, 'must provide time'],
+        trim: true,
+    },
 
 });
 

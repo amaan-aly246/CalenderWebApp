@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const tasks = require('./routes/tasks');
 const connectDB = require('./Database/connect');
 const port = process.env.PORT || 3000;
 require('dotenv').config(); 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Routes

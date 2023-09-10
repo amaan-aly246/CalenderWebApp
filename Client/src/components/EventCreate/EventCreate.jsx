@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import "./EventCreate.css"
+
 export default function EventCreate() {
   const [title, setTitle] = useState("")
   const [startTime, setStartTime] = useState("")
@@ -15,40 +16,61 @@ export default function EventCreate() {
     }
   }
 
-  const handlerSubmit = (e) => {
+  const handlerSubmit = async (e) => {
     e.preventDefault()
     const newEvent = {
       title: title,
-      startTime: startTime,
-      endTime: endTime,
+      timeFrom: startTime,
+      timeTo: endTime,
     }
-    console.log(newEvent)
+
+    try {
+      const response = await fetch("http://localhost:3000/api/tasks", {
+        method: "POST",
+        body: JSON.stringify(newEvent),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.status === 201) {
+        console.log("Event created successfully.")
+        // Clear the form after successful submission
+        setTitle("")
+        setStartTime("")
+        setEndTime("")
+      } else {
+        console.error("Error creating event.")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
   }
 
   return (
     <form className="container">
       <div className="eventContainer">
-        <h2>Add Event </h2>
+        <h2>Add Event</h2>
         <div className="eventTitle">
-          <span className="title">title</span>
+          <span className="title">Title</span>
           <input
             type="text"
-            placeholder="event"
+            placeholder="Event"
             onChange={handlerFunc}
             value={title}
           />
         </div>
         <div className="eventTime">
-          <span className="title">time</span>
+          <span className="title">Time</span>
           <span className="duration">
-            <span>from</span>
+            <span>From</span>
             <input
               type="time"
               id="from"
               onChange={handlerFunc}
               value={startTime}
             />
-            <span>to</span>
+            <span>To</span>
             <input type="time" id="to" onChange={handlerFunc} value={endTime} />
           </span>
         </div>
