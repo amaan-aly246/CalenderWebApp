@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import "./EventPart.css"
 import "../../App.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { months, fullDays } from "../../data/Data"
 import { Link } from "react-router-dom"
-import { DateInfoContext } from "../../ContextProvider/DateInfoContext"
 function EventPart() {
   const currentDate = new Date()
-  const { dateInfo } = useContext(DateInfoContext)
-  console.log(dateInfo)
   const [eventData, setEventData] = useState([])
 
   const fetchData = async () => {
@@ -58,6 +55,20 @@ function EventPart() {
     deleteData()
   }
 
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":")
+    let ampm = "AM"
+    let formattedHours = parseInt(hours)
+
+    if (formattedHours >= 12) {
+      ampm = "PM"
+      if (formattedHours > 12) {
+        formattedHours -= 12
+      }
+    }
+
+    return `${formattedHours}:${minutes} ${ampm}`
+  }
   return (
     <section className="Event-Container">
       <header className="event-header">
@@ -82,9 +93,9 @@ function EventPart() {
                   />
                 </div>
 
-                <span></span>
-                <span className="event-time">{`${data.timeFrom} PM --`}</span>
-                <span className="event-time">{data.timeFrom}</span>
+                <span className="event-time">
+                  {`${formatTime(data.timeFrom)} -- ${formatTime(data.timeTo)}`}
+                </span>
               </li>
             ))}
           </ul>
