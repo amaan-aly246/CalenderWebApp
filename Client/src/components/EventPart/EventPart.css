@@ -6,7 +6,16 @@
   background-color: var(--primaryColor);
   color: var(--secondaryColor);
 }
+.wrapper{
+  position: relative;
+}
 
+.dustbin{
+  position: absolute;
+  top: 10px;
+  left : 30em;
+  cursor: pointer;
+}
 .event-header {
   display: flex;
   justify-content: space-around;

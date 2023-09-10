@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import "./EventCreate.css"
-
 export default function EventCreate() {
   const [title, setTitle] = useState("")
   const [startTime, setStartTime] = useState("")
@@ -34,13 +33,17 @@ export default function EventCreate() {
       })
 
       if (response.status === 201) {
-        console.log("Event created successfully.")
-        // Clear the form after successful submission
         setTitle("")
         setStartTime("")
         setEndTime("")
+        alert("Event created successfully.")
+        setTimeout(() => {
+        window.location.href = "/";
+          
+        }, 1000);
       } else {
         console.error("Error creating event.")
+        alert("Error creating event. , event cannot be empty ")
       }
     } catch (error) {
       console.error("Error:", error)

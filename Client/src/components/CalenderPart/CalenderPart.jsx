@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons"
 import { days, months, fullDays } from "../../data/Data"
 import "../../App.css"
-import { renderDates } from "./renderDates"
+import RenderDates from "./renderDates"
 export default function CalenderPart() {
   const currentDate = new Date()
-  // console.log(currentDate.getDate())
 
   const [monthIndex, setMonthIndex] = useState(currentDate.getMonth())
   const [year, setYear] = useState(currentDate.getFullYear())
@@ -51,7 +50,7 @@ export default function CalenderPart() {
     if (event.key == "Enter") {
       event.target.value = ""
       event.target.blur() // remove focus from the  input
-      console.log(inputValue.split(":")[1].length)
+      // console.log(inputValue.split(":")[1].length)
       if (
         parseInt(inputValue.split(":")[0]) - 1 > 12 ||
         parseInt(inputValue.split(":")[1].length) != 4
@@ -86,12 +85,12 @@ export default function CalenderPart() {
           ))}
         </div>
         <div className="grid-date">
-          {/* {Array.from({ length: 42  }, (index) => (
-            <div className="grid-item" >
-              
-            </div>
-          ))} */}
-          {renderDates(firstDayOfMonth, totalDaysInMonth, monthIndex, year)}
+          <RenderDates
+            firstDayOfMonth={firstDayOfMonth}
+            totalDaysInMonth={totalDaysInMonth}
+            monthIndex={monthIndex}
+            year={year}
+          />
         </div>
       </section>
       <footer className="Calender-footer">
