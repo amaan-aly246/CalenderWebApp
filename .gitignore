@@ -1,2 +1,6 @@
-/api/node_modules
-/api/.env
+# Ignore all .env files
+*.env
+
+# Ignore the entire node_modules directory
+node_modules/
+
