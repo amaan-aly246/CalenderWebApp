@@ -1,2 +1,2 @@
 # CalenderWebApp
-Calender App made using MERN stack. 
+Calender WebApp made using MERN stack. 
