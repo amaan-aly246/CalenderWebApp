@@ -1,2 +1,2 @@
 # CalenderWebApp
-Project work for Enactus NSUT
+Calender WebApp made using MERN stack. 
