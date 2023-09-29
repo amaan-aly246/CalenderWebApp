@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/tasks', tasks);
-app.use('', auth);
+app.use('/', auth);
 
 const start = async () => {
     try {
