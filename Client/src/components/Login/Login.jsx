@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import "../Login/Login.css"
+import Layout from "../../Layout/Layout"
 function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [nav, setNav] = useState(false)
 
   const handleOnChange = (event) => {
     event.target.type == "password"
@@ -23,17 +25,20 @@ function LoginPage() {
       })
       setPassword("")
       setUsername("")
-      if (response.status !== 200) {
-        alert(" Invalid credentials")
-      } else {
+      if (response.status == 200) {
         alert("Login successful")
-        setTimeout(() => {
-          window.location.href = "/"
-        }, 900)
+        // console.log(response)
+        setNav(true)
+
+      } else {
+        alert(" Invalid credentials")
       }
     } catch (error) {
       console.log(error)
     }
+  }
+  if (nav) {
+    return <Layout></Layout>
   }
   return (
     <form onSubmit={Login}>

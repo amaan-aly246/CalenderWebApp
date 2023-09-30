@@ -1,8 +1,11 @@
 import "../Login/Login.css"
 import React, { useState } from "react"
+import Layout from "../../Layout/Layout"
+
 function RegisterPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [flag, setFlag] = useState()
 
   const handleOnChange = (event) => {
     event.target.type == "password"
@@ -26,14 +29,25 @@ function RegisterPage() {
       if (response.status !== 201) {
         alert("Registration failed")
       } else {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        })
+        // console.log("register page")
         alert("Registration successful")
-        setTimeout(() => {
-          window.location.href = "/"
-        }, 900)
+        setFlag(true)
       }
     } catch (error) {
       console.log(error)
     }
+  }
+  if (flag) {
+    return <Layout></Layout>
   }
   return (
     <form onSubmit={register}>

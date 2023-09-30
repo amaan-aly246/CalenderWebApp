@@ -34,12 +34,11 @@ const login = async (req, res) => {
             res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (error) {
-        console.error('Error during login:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
-const accessToken = async (req, res) => {
+const user = async (req, res) => {
     const { token } = req.cookies;
     try {
         const info = jwt.verify(token, secret)
@@ -53,6 +52,6 @@ const logOut = async ( req, res )=>{
   res.cookie('token', '').status(200).json({message: "logout successful"});
 }
 
-module.exports = { register, login, accessToken , logOut };
+module.exports = { register, login, user , logOut };
 
 

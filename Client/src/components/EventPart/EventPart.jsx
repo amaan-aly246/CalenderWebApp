@@ -4,13 +4,14 @@ import "../../App.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { months, fullDays } from "../../data/Data"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
+import Layout from "../../Layout/Layout"
 function EventPart() {
   const currentDate = new Date()
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
   const [username, setUsername] = useState(null)
-
+ 
   const fetchData = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/tasks")
@@ -30,13 +31,13 @@ function EventPart() {
   }, [])
 
   useEffect(() => {
-    fetch("http://localhost:3000/", {
+    fetch("http://localhost:3000/user", {
       method: "GET",
       credentials: "include",
     }).then((response) =>
       response.json().then((userInfo) => {
         setUsername(userInfo.username.toUpperCase())
-        // console.log(response.ok)
+        // console.log('eventpart page')
         setIsLogin(true)
       })
     )
@@ -90,6 +91,7 @@ function EventPart() {
     })
     setIsLogin(false)
   }
+
   return (
     <section className="Event-Container">
       <header className="event-header">
