@@ -21,8 +21,14 @@ const TaskSchema = new mongoose.Schema({
         required: [true, 'must provide time'],
         trim: true,
     },
-
+    userID:{
+        type: String,
+        require: true,
+        trim: true
+    }
 });
+
+
 
 
 module.exports = mongoose.model('Task', TaskSchema);    // Task is the name of the collection in the database

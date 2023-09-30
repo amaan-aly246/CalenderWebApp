@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import "./EventCreate.css"
+import Layout from "../../Layout/Layout"
 export default function EventCreate() {
   const [title, setTitle] = useState("")
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
+  const [flag, setFlag] = useState(false)
 
   const handlerFunc = (e) => {
     if (e.target.id === "from") {
@@ -15,23 +17,14 @@ export default function EventCreate() {
     }
   }
 
-  const handlerSubmit = async (e) => {
-    e.preventDefault()
-    const newEvent = {
-      title: title,
-      timeFrom: startTime,
-      timeTo: endTime,
-    }
-
+  const createEventFunc = async (newEvent) => {
     try {
       const response = await fetch("http://localhost:3000/api/tasks", {
         method: "POST",
         body: JSON.stringify(newEvent),
         headers: {
           "Content-Type": "application/json",
-          
         },
-        
       })
 
       if (response.status === 201) {
@@ -39,12 +32,8 @@ export default function EventCreate() {
         setStartTime("")
         setEndTime("")
         alert("Event created successfully.")
-        setTimeout(() => {
-        window.location.href = "/";
-          
-        }, 1000);
+        setFlag(true)
       } else {
-        console.error("Error creating event.")
         alert("Error creating event. , event cannot be empty ")
       }
     } catch (error) {
@@ -52,6 +41,36 @@ export default function EventCreate() {
     }
   }
 
+  const fetchUseIdFunc = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/user", {
+        method: "GET",
+        credentials: "include",
+      })
+      if (!response.ok) {
+        throw new error("Failed to get user")
+      }
+      const { id: userID } = await response.json()
+      const newEvent = {
+        title: title,
+        timeFrom: startTime,
+        timeTo: endTime,
+        userID: userID,
+      }
+
+      // create event function
+      createEventFunc(newEvent)
+    } catch (error) {
+      console.log("error")
+    }
+  }
+
+  const handlerSubmit = async (e) => {
+    e.preventDefault()
+    // fetch the userId stored in cookies.
+    fetchUseIdFunc()
+  }
+  if (flag) return <Layout></Layout>
   return (
     <form className="container">
       <div className="eventContainer">
