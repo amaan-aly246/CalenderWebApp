@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-
 import "../Login/Login.css"
 function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+
   const handleOnChange = (event) => {
     event.target.type == "password"
       ? setPassword(event.target.value)
@@ -19,6 +19,7 @@ function LoginPage() {
           password,
         }),
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       })
       setPassword("")
       setUsername("")

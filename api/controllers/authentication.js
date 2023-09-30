@@ -1,5 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const secret = process.env.ACCESS_SECRET_TOKEN
 
 const register = async (req, res) => {
     const { username, password } = req.body;
@@ -22,9 +25,11 @@ const login = async (req, res) => {
 
     try {
         const user = await User.findOne({ username });
+        const passOk = bcrypt.compareSync(password, user.password)
+        if (user && passOk) {
+            const token = jwt.sign({ username, id: user._id }, secret)
+            res.cookie('token', token).status(200).json({ message: 'Login successful' });
 
-        if (user && bcrypt.compareSync(password, user.password)) {
-            res.status(200).json({ message: 'Login successful' });
         } else {
             res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -34,6 +39,20 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+const accessToken = async (req, res) => {
+    const { token } = req.cookies;
+    try {
+        const info = jwt.verify(token, secret)
+        res.json(info);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const logOut = async ( req, res )=>{
+  res.cookie('token', '').status(200).json({message: "logout successful"});
+}
+
+module.exports = { register, login, accessToken , logOut };
 
 

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 function EventPart() {
   const currentDate = new Date()
   const [eventData, setEventData] = useState([])
+  const [isLogin, setIsLogin] = useState(false)
+  const [username, setUsername] = useState(null)
 
   const fetchData = async () => {
     try {
@@ -27,6 +29,18 @@ function EventPart() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    fetch("http://localhost:3000/", {
+      method: "GET",
+      credentials: "include",
+    }).then((response) =>
+      response.json().then((userInfo) => {
+        setUsername(userInfo.username.toUpperCase())
+        // console.log(response.ok)
+        setIsLogin(true)
+      })
+    )
+  }, [])
   const handleDelete = (e) => {
     let deleteTaskID = e.currentTarget.parentNode.parentNode.id
     console.log(deleteTaskID)
@@ -69,6 +83,13 @@ function EventPart() {
 
     return `${formattedHours}:${minutes} ${ampm}`
   }
+  const logOut = async () => {
+    await fetch("http://localhost:3000/logout", {
+      credentials: "include",
+      method: "GET",
+    })
+    setIsLogin(false)
+  }
   return (
     <section className="Event-Container">
       <header className="event-header">
@@ -102,15 +123,26 @@ function EventPart() {
         }
       </section>
       <footer className="event-footer">
-        <button className="loginBtn">
-          <Link to={"login"} className="nav-link">
-            Login
-          </Link>
-        </button>
+        {!isLogin && (
+          <button className="loginBtn">
+            <Link to={"login"} className="nav-link">
+              LogIn
+            </Link>
+          </button>
+        )}
+        {isLogin && (
+          <button className="loginBtn" onClick={logOut}>
+            LogOut
+          </button>
+        )}
+
         <button className="registerBtn">
-          <Link to={"register"} className="nav-link">
-            Register
-          </Link>
+          {!isLogin && (
+            <Link to={"register"} className="nav-link">
+              Register
+            </Link>
+          )}
+          {isLogin && username}
         </button>
         <button className="createEvent">
           <Link to={"addEvent"} className="nav-link">

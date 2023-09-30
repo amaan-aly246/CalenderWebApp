@@ -29,7 +29,9 @@ export default function EventCreate() {
         body: JSON.stringify(newEvent),
         headers: {
           "Content-Type": "application/json",
+          
         },
+        
       })
 
       if (response.status === 201) {
