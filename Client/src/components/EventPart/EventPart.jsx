@@ -5,16 +5,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { months, fullDays } from "../../data/Data"
 import { Link, NavLink } from "react-router-dom"
-import Layout from "../../Layout/Layout"
 function EventPart() {
   const currentDate = new Date()
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
   const [username, setUsername] = useState(null)
- 
+  const [userID, setUserID] = useState()
+
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/tasks")
+      const response = await fetch(
+        `http://localhost:3000/api/tasks?userID=${userID}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      )
       if (!response.ok) {
         throw new Error("Network response was not ok")
       }
@@ -26,10 +32,7 @@ function EventPart() {
     }
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
+  // fetching the username stored in the cookie
   useEffect(() => {
     fetch("http://localhost:3000/user", {
       method: "GET",
@@ -37,11 +40,24 @@ function EventPart() {
     }).then((response) =>
       response.json().then((userInfo) => {
         setUsername(userInfo.username.toUpperCase())
-        // console.log('eventpart page')
+        setUserID(userInfo.id)
         setIsLogin(true)
       })
     )
   }, [])
+
+  useEffect(() => {
+    fetchData();
+  }, [userID])
+
+  const logOut = async () => {
+    await fetch("http://localhost:3000/logout", {
+      credentials: "include",
+      method: "GET",
+    })
+    setIsLogin(false)
+    setUserID(undefined);
+  }
   const handleDelete = (e) => {
     let deleteTaskID = e.currentTarget.parentNode.parentNode.id
     console.log(deleteTaskID)
@@ -83,13 +99,6 @@ function EventPart() {
     }
 
     return `${formattedHours}:${minutes} ${ampm}`
-  }
-  const logOut = async () => {
-    await fetch("http://localhost:3000/logout", {
-      credentials: "include",
-      method: "GET",
-    })
-    setIsLogin(false)
   }
 
   return (

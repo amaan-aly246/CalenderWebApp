@@ -2,11 +2,14 @@ const Task = require("../models/task")
 
 const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({});
-        res.status(200).json({ tasks });
+        const { userID } = req.query;
+        if (userID) {
+            const tasks = await Task.find({ userID });
+            res.status(200).json({ tasks });
+        }
 
     } catch (error) {
-        res.status(500).json({ msg: error });
+        res.status(500).json({ error: error });
     }
 }
 
