@@ -44,7 +44,7 @@ const user = async (req, res) => {
         const info = jwt.verify(token, secret)
         res.json(info);
     } catch (error) {
-        console.log(error);
+        console.log('user', error);
     }
 }
 

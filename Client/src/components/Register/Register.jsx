@@ -5,7 +5,6 @@ import Layout from "../../Layout/Layout"
 function RegisterPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [flag, setFlag] = useState()
 
   const handleOnChange = (event) => {
     event.target.type == "password"
@@ -40,15 +39,13 @@ function RegisterPage() {
         })
         // console.log("register page")
         alert("Registration successful")
-        setFlag(true)
+        window.location.href = '/'
       }
     } catch (error) {
       console.log(error)
     }
   }
-  if (flag) {
-    return <Layout></Layout>
-  }
+  
   return (
     <form onSubmit={register}>
       <h2>Register </h2>

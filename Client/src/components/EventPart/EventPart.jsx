@@ -47,7 +47,7 @@ function EventPart() {
   }, [])
 
   useEffect(() => {
-    fetchData();
+    fetchData()
   }, [userID])
 
   const logOut = async () => {
@@ -56,7 +56,7 @@ function EventPart() {
       method: "GET",
     })
     setIsLogin(false)
-    setUserID(undefined);
+    setUserID(undefined)
   }
   const handleDelete = (e) => {
     let deleteTaskID = e.currentTarget.parentNode.parentNode.id
@@ -155,14 +155,16 @@ function EventPart() {
           )}
           {isLogin && username}
         </button>
-        <button className="createEvent">
-          <Link to={"addEvent"} className="nav-link">
-            <FontAwesomeIcon
-              icon={faCirclePlus}
-              style={{ color: "rgb(112, 119, 146)" }}
-            />
-          </Link>
-        </button>
+        {isLogin && (
+          <button className="createEvent">
+            <Link to={"addEvent"} className="nav-link">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                style={{ color: "rgb(112, 119, 146)" }}
+              />
+            </Link>
+          </button>
+        )}
       </footer>
     </section>
   )

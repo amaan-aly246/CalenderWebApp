@@ -5,7 +5,6 @@ export default function EventCreate() {
   const [title, setTitle] = useState("")
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
-  const [flag, setFlag] = useState(false)
 
   const handlerFunc = (e) => {
     if (e.target.id === "from") {
@@ -32,7 +31,7 @@ export default function EventCreate() {
         setStartTime("")
         setEndTime("")
         alert("Event created successfully.")
-        setFlag(true)
+        window.location.href = '/'
       } else {
         alert("Error creating event. , event cannot be empty ")
       }
@@ -61,7 +60,7 @@ export default function EventCreate() {
       // create event function
       createEventFunc(newEvent)
     } catch (error) {
-      console.log("error")
+      console.log('Error', error);
     }
   }
 
@@ -70,7 +69,6 @@ export default function EventCreate() {
     // fetch the userId stored in cookies.
     fetchUseIdFunc()
   }
-  if (flag) return <Layout></Layout>
   return (
     <form className="container">
       <div className="eventContainer">
