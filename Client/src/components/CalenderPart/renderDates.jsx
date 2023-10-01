@@ -7,7 +7,6 @@ const RenderDates = ({
   year,
 }) => {
   const { updateData } = useContext(DataContext);
-
   const [dateInfo, setDateInfo] = useState("")
   const todaysDate = new Date().getDate()
   const currentMonth = new Date().getMonth()
@@ -32,13 +31,13 @@ const RenderDates = ({
   for (var i = 1; i <= totalDaysInMonth; i++) {
     i = i.toString() // Convert i to a string
     i.length === 1 ? (i = "0" + i) : i
-
+    monthIndex.toString().length === 1 ? (monthIndex = "0" + monthIndex): monthIndex;
     var concatenateString = i
       .toString()
       .concat(monthIndex.toString(), year.toString())
 
     i = parseInt(i) // Parse i as an integer again
-
+    monthIndex = parseInt(monthIndex)
     const isToday =
       todaysDate === i && monthIndex === currentMonth && year === currentYear
     const className = isToday

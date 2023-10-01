@@ -8,7 +8,14 @@ import { months, fullDays } from "../../data/Data"
 import { Link } from "react-router-dom"
 
 function EventPart() {
-  const currentDate = new Date()
+  // const currentDate = new Date()
+  const date = new Date().getDate()
+  const day = new Date().getDay()
+  const month = new Date().getMonth()  
+  const year = new Date().getFullYear()
+  const [fullDate, setDate] = useState({
+    date, month, year
+  })
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
   const [username, setUsername] = useState(null)
@@ -28,6 +35,17 @@ function EventPart() {
     // Log dateID whenever it changes
     if (dateID) {
       // console.log("EventPart: ", dateID)
+      const date = dateID.slice(0, 2)
+      const month = parseInt(dateID.slice(2, 4)) 
+      const year = dateID.slice(4)
+      
+      setDate({
+        date,
+        month,
+        year,
+      })
+      // console.log(fullDate.date);
+
     }
   }, [dateID])
 
@@ -119,14 +137,14 @@ function EventPart() {
 
     return `${formattedHours}:${minutes} ${ampm}`
   }
-
+// month = parseInt(month)
   return (
     <section className="Event-Container">
       <header className="event-header">
-        <span className="event-day">{fullDays[currentDate.getDay()]}</span>
+        <span className="event-day">{fullDays[day]}</span>
         <span className="event-complete-date">
-          {currentDate.getDate()} {months[currentDate.getMonth()].month}
-          {currentDate.getFullYear()}
+          {fullDate.date} {months[fullDate.month].month } {' '}
+          { fullDate.year}
         </span>
       </header>
       <section className="event-content">
