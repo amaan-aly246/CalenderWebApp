@@ -1,11 +1,29 @@
-import React, { useState } from "react"
+import React, { useState , useContext , useEffect } from "react"
 import "./EventCreate.css"
-import Layout from "../../Layout/Layout"
+import { DataContext } from "../../Context/DataContext"
+
 export default function EventCreate() {
+  
   const [title, setTitle] = useState("")
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
 
+  // date id on which the user clicked
+  const [dateID, setDateID] = useState()
+  const { data } = useContext(DataContext)
+
+  useEffect(() => {
+    // Update dateID when data changes
+    setDateID(data)
+  }, [data])
+
+  useEffect(() => {
+    // Log dateID whenever it changes
+    if (dateID) {
+      // console.log("EventCreate: ", dateID)
+    }
+  }, [dateID])
+  
   const handlerFunc = (e) => {
     if (e.target.id === "from") {
       setStartTime(e.target.value)
@@ -55,6 +73,7 @@ export default function EventCreate() {
         timeFrom: startTime,
         timeTo: endTime,
         userID: userID,
+        dateID: dateID
       }
 
       // create event function

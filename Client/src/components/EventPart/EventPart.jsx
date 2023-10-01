@@ -1,21 +1,40 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./EventPart.css"
 import "../../App.css"
+import { DataContext } from "../../Context/DataContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { months, fullDays } from "../../data/Data"
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
+
 function EventPart() {
   const currentDate = new Date()
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
   const [username, setUsername] = useState(null)
+
   const [userID, setUserID] = useState()
+
+  // date id on which the user clicked
+  const [dateID, setDateID] = useState()
+  const { data } = useContext(DataContext)
+
+  useEffect(() => {
+    // Update dateID when data changes
+    setDateID(data)
+  }, [data])
+
+  useEffect(() => {
+    // Log dateID whenever it changes
+    if (dateID) {
+      // console.log("EventPart: ", dateID)
+    }
+  }, [dateID])
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/tasks?userID=${userID}`,
+        `http://localhost:3000/api/tasks?userID=${userID}&dateID=${dateID}`,
         {
           method: "GET",
           credentials: "include",
@@ -106,7 +125,7 @@ function EventPart() {
       <header className="event-header">
         <span className="event-day">{fullDays[currentDate.getDay()]}</span>
         <span className="event-complete-date">
-          {currentDate.getDate()}th {months[currentDate.getMonth()].month}
+          {currentDate.getDate()} {months[currentDate.getMonth()].month}
           {currentDate.getFullYear()}
         </span>
       </header>

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect , useContext} from "react"
+import { DataContext } from '../../Context/DataContext';
 const RenderDates = ({
   firstDayOfMonth,
   totalDaysInMonth,
   monthIndex,
   year,
 }) => {
+  const { updateData } = useContext(DataContext);
+
   const [dateInfo, setDateInfo] = useState("")
   const todaysDate = new Date().getDate()
   const currentMonth = new Date().getMonth()
@@ -15,7 +18,7 @@ const RenderDates = ({
   }
 
   useEffect(() => {
-    // console.log(dateInfo)
+    updateData(dateInfo);
   }, [dateInfo])
 
   const dates = []
@@ -51,7 +54,6 @@ const RenderDates = ({
         {i}
       </div>
     )
-    // console.log(concatenateString)
   }
 
   //empty space

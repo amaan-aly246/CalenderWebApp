@@ -5,8 +5,8 @@ import CalenderPart from "../components/CalenderPart/CalenderPart"
 export default function Layout() {
   return (
     <main>
-      <CalenderPart />
-      <EventPart />
+        <CalenderPart />
+        <EventPart />
     </main>
   )
 }

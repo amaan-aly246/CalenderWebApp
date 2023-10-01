@@ -25,6 +25,11 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         require: true,
         trim: true
+    },
+    dateID:{
+        type:String,
+        require:true,
+        trim: true
     }
 });
 
