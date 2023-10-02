@@ -14,7 +14,7 @@ function EventPart() {
   const month = new Date().getMonth()  
   const year = new Date().getFullYear()
   const [fullDate, setDate] = useState({
-    date, month, year
+    date, month, year , day
   })
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
@@ -34,18 +34,16 @@ function EventPart() {
   useEffect(() => {
     // Log dateID whenever it changes
     if (dateID) {
-      // console.log("EventPart: ", dateID)
       const date = dateID.slice(0, 2)
       const month = parseInt(dateID.slice(2, 4)) 
       const year = dateID.slice(4)
-      
+      const day = fullDays[new Date(year, month , date).getDay()] 
       setDate({
         date,
         month,
         year,
+        day
       })
-      // console.log(fullDate.date);
-
     }
   }, [dateID])
 
@@ -137,11 +135,10 @@ function EventPart() {
 
     return `${formattedHours}:${minutes} ${ampm}`
   }
-// month = parseInt(month)
   return (
     <section className="Event-Container">
       <header className="event-header">
-        <span className="event-day">{fullDays[day]}</span>
+        <span className="event-day">{fullDate.day}</span>
         <span className="event-complete-date">
           {fullDate.date} {months[fullDate.month].month } {' '}
           { fullDate.year}
