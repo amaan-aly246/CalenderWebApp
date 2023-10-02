@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import "./EventPart.css"
 import "../../App.css"
 import { DataContext } from "../../Context/DataContext"
@@ -10,10 +10,13 @@ import { Link } from "react-router-dom"
 function EventPart() {
   const date = new Date().getDate()
   const day = new Date().getDay()
-  const month = new Date().getMonth()  
+  const month = new Date().getMonth()
   const year = new Date().getFullYear()
-  const [fullDate, setDate] = useState({
-    date, month, year , day
+  const [fullDate, setFullDate] = useState({
+    date,
+    month,
+    year,
+    day,
   })
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
@@ -21,26 +24,35 @@ function EventPart() {
   const [userID, setUserID] = useState()
 
   // date id on which the user clicked
-  const [dateID, setDateID] = useState()
   const { data } = useContext(DataContext)
+  const [dateID, setDateID] = useState(data)
 
   useEffect(() => {
-    // Update dateID when data changes
-    setDateID(data)
+    if (data) {
+      setDateID(data)
+    }
   }, [data])
 
+  // fetching the username stored in the cookie
   useEffect(() => {
-    // Log dateID whenever it changes
+    fetchUserID()
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [userID, dateID])
+
+  useEffect(() => {
     if (dateID) {
       const date = dateID.slice(0, 2)
-      const month = parseInt(dateID.slice(2, 4)) 
+      const month = parseInt(dateID.slice(2, 4))
       const year = dateID.slice(4)
-      const day = fullDays[new Date(year, month , date).getDay()] 
-      setDate({
+      const day = fullDays[new Date(year, month, date).getDay()]
+      setFullDate({
         date,
         month,
         year,
-        day
+        day,
       })
     }
   }, [dateID])
@@ -60,31 +72,28 @@ function EventPart() {
       const data = await response.json()
       const { tasks: eventData } = data
       setEventData(eventData)
-      // console.log(eventData[1])
+
+      // console.log(" fetchData func", eventData[0])
     } catch (error) {
       console.error("Error fetching data:", error)
     }
   }
 
-  // fetching the username stored in the cookie
-  useEffect(() => {
-    fetch("http://localhost:3000/user", {
-      method: "GET",
-      credentials: "include",
-    }).then((response) =>
-      response.json().then((userInfo) => {
-        setUsername(userInfo.username.toUpperCase())
-        setUserID(userInfo.id)
-        setIsLogin(true)
-        // console.log(userInfo)
+  const fetchUserID = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/user", {
+        method: "GET",
+        credentials: "include",
       })
-    )
-  }, [])
-
-  useEffect(() => {
-    fetchData()
-  }, [userID , dateID])
-
+      const userInfo = await response.json()
+      setUsername(userInfo.username.toUpperCase())
+      setUserID(userInfo.id)
+      setIsLogin(true)
+      // console.log("fetch user end", userInfo.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const logOut = async () => {
     await fetch("http://localhost:3000/logout", {
       credentials: "include",
@@ -140,8 +149,7 @@ function EventPart() {
       <header className="event-header">
         <span className="event-day">{fullDate.day}</span>
         <span className="event-complete-date">
-          {fullDate.date} {months[fullDate.month].month } {' '}
-          { fullDate.year}
+          {fullDate.date} {months[fullDate.month].month} {fullDate.year}
         </span>
       </header>
       <section className="event-content">

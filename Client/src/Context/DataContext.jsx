@@ -5,6 +5,7 @@ const DataContext = createContext()
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(generateCurrentDateString())
+  // const [data, setData] = useState('02092023')
 
   const updateData = (newData) => {
     setData(newData)
