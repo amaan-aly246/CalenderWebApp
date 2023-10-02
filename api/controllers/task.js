@@ -2,9 +2,9 @@ const Task = require("../models/task")
 
 const getAllTasks = async (req, res) => {
     try {
-        const { userID } = req.query;
+        const { userID , dateID} = req.query;
         if (userID) {
-            const tasks = await Task.find({ userID });
+            const tasks = await Task.find({ userID , dateID });
             res.status(200).json({ tasks });
         }
 

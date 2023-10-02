@@ -8,7 +8,6 @@ import { months, fullDays } from "../../data/Data"
 import { Link } from "react-router-dom"
 
 function EventPart() {
-  // const currentDate = new Date()
   const date = new Date().getDate()
   const day = new Date().getDay()
   const month = new Date().getMonth()  
@@ -83,7 +82,7 @@ function EventPart() {
 
   useEffect(() => {
     fetchData()
-  }, [userID])
+  }, [userID , dateID])
 
   const logOut = async () => {
     await fetch("http://localhost:3000/logout", {
