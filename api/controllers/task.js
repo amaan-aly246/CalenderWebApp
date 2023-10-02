@@ -1,6 +1,6 @@
 const Task = require("../models/task")
 
-const getAllTasks = async (req, res) => {
+const getSpecificTask = async (req, res) => {
     try {
         const { userID , dateID} = req.query;
         if (userID) {
@@ -13,6 +13,15 @@ const getAllTasks = async (req, res) => {
     }
 }
 
+const getAllTask = async (req, res) => {
+    try {
+        const { userID } = req.query;
+        const tasks = await Task.find({userID});
+        res.status(200).json({ tasks });
+    } catch (error) {
+        res.status(500).json({ msg: error });
+    }
+}
 const createTask = async (req, res) => {
     try {
         const task = await Task.create(req.body)
@@ -53,9 +62,9 @@ const deleteTask = async (req, res) => {
 
 
 module.exports = {
-    getAllTasks,
+    getSpecificTask,
     createTask,
     updateTask,
     deleteTask,
-
+    getAllTask
 }

@@ -18,7 +18,6 @@ function EventPart() {
   const [eventData, setEventData] = useState([])
   const [isLogin, setIsLogin] = useState(false)
   const [username, setUsername] = useState(null)
-
   const [userID, setUserID] = useState()
 
   // date id on which the user clicked
@@ -61,6 +60,7 @@ function EventPart() {
       const data = await response.json()
       const { tasks: eventData } = data
       setEventData(eventData)
+      // console.log(eventData[1])
     } catch (error) {
       console.error("Error fetching data:", error)
     }
@@ -76,6 +76,7 @@ function EventPart() {
         setUsername(userInfo.username.toUpperCase())
         setUserID(userInfo.id)
         setIsLogin(true)
+        // console.log(userInfo)
       })
     )
   }, [])

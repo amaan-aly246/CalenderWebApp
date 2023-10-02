@@ -7,8 +7,8 @@ export default function EventCreate() {
   const [startTime, setStartTime] = useState("")
   const [endTime, setEndTime] = useState("")
 
-  const [dateID, setDateID] = useState()
   const { data } = useContext(DataContext)
+  const [dateID, setDateID] = useState(data)
 
   useEffect(() => {
     setDateID(data)
