@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./EventPart.css"
 import "../../App.css"
 import { DataContext } from "../../Context/DataContext"
@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { months, fullDays } from "../../data/Data"
 import { Link } from "react-router-dom"
-
+// import {fetchData} from '../../functions/fetchData'
+// import fullDays from "../../data/Data"
 function EventPart() {
   const date = new Date().getDate()
   const day = new Date().getDay()
@@ -19,19 +20,22 @@ function EventPart() {
     day,
   })
   const [eventData, setEventData] = useState([])
-  const [isLogin, setIsLogin] = useState(false)
+
   const [username, setUsername] = useState(null)
-  const [userID, setUserID] = useState()
+  // const [userID, setUserID] = useState()
 
   // date id on which the user clicked
-  const { data } = useContext(DataContext)
-  const [dateID, setDateID] = useState(data)
+  const { todayDateID, setIsLogin, isLogin, userID, setUserID } =
+    useContext(DataContext)
+
+  const [dateID, setDateID] = useState(todayDateID)
 
   useEffect(() => {
-    if (data) {
-      setDateID(data)
+    if (todayDateID) {
+      setDateID(todayDateID)
+      // console.log(dateID)
     }
-  }, [data])
+  }, [todayDateID])
 
   // fetching the username stored in the cookie
   useEffect(() => {
@@ -40,7 +44,7 @@ function EventPart() {
 
   useEffect(() => {
     fetchData()
-  }, [userID, dateID])
+  }, [dateID, userID])
 
   useEffect(() => {
     if (dateID) {
@@ -72,8 +76,6 @@ function EventPart() {
       const data = await response.json()
       const { tasks: eventData } = data
       setEventData(eventData)
-
-      // console.log(" fetchData func", eventData[0])
     } catch (error) {
       console.error("Error fetching data:", error)
     }
@@ -88,8 +90,6 @@ function EventPart() {
       const userInfo = await response.json()
       setUsername(userInfo.username.toUpperCase())
       setUserID(userInfo.id)
-      setIsLogin(true)
-      // console.log("fetch user end", userInfo.id)
     } catch (error) {
       console.log(error)
     }
@@ -104,7 +104,7 @@ function EventPart() {
   }
   const handleDelete = (e) => {
     let deleteTaskID = e.currentTarget.parentNode.parentNode.id
-    console.log(deleteTaskID)
+    // console.log(deleteTaskID)
 
     const deleteData = async (deleteTaskID) => {
       try {
@@ -147,6 +147,7 @@ function EventPart() {
   return (
     <section className="Event-Container">
       <header className="event-header">
+        {/* <span className="event-day">{fullDate.day}</span> */}
         <span className="event-day">{fullDate.day}</span>
         <span className="event-complete-date">
           {fullDate.date} {months[fullDate.month].month} {fullDate.year}
@@ -175,6 +176,7 @@ function EventPart() {
           </ul>
         }
       </section>
+
       <footer className="event-footer">
         {!isLogin && (
           <button className="loginBtn">
@@ -188,6 +190,7 @@ function EventPart() {
             LogOut
           </button>
         )}
+        {isLogin && <button className="loginBtn">{username}</button>}
 
         <button className="registerBtn">
           {!isLogin && (
@@ -195,7 +198,6 @@ function EventPart() {
               Register
             </Link>
           )}
-          {isLogin && username}
         </button>
         {isLogin && (
           <button className="createEvent">

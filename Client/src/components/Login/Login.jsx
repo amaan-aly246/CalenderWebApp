@@ -1,9 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useContext, useEffect } from "react"
+import { DataContext } from "../../Context/DataContext"
 import "../Login/Login.css"
-import Layout from "../../Layout/Layout"
+import { Navigate } from "react-router-dom"
 function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const { setIsLogin, isLogin } = useContext(DataContext)
+  const [redirect, setRedirect] = useState(false)
+
   const handleOnChange = (event) => {
     event.target.type == "password"
       ? setPassword(event.target.value)
@@ -25,8 +29,8 @@ function LoginPage() {
       setUsername("")
       if (response.status == 200) {
         alert("Login successful")
-        window.location.href = '/'
-
+        setIsLogin(true)
+        setRedirect(true)
       } else {
         alert(" Invalid credentials")
       }
@@ -34,7 +38,10 @@ function LoginPage() {
       console.log(error)
     }
   }
+
  
+
+  if (redirect) return <Navigate to={"/"}></Navigate>
   return (
     <form onSubmit={Login}>
       <h2>Login </h2>
@@ -56,3 +63,4 @@ function LoginPage() {
 }
 
 export default LoginPage
+

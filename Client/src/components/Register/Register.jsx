@@ -1,10 +1,11 @@
 import "../Login/Login.css"
 import React, { useState } from "react"
-import Layout from "../../Layout/Layout"
+import { Navigate } from "react-router-dom"
 
 function RegisterPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [redirect, setRedirect] = useState(false)
 
   const handleOnChange = (event) => {
     event.target.type == "password"
@@ -23,29 +24,20 @@ function RegisterPage() {
         }),
         headers: { "Content-Type": "application/json" },
       })
-      setPassword("")
-      setUsername("")
-      if (response.status !== 201) {
-        alert("Registration failed")
-      } else {
-        const response = await fetch("http://localhost:3000/login", {
-          method: "POST",
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        })
-        // console.log("register page")
+      if (response.ok) {
+        setPassword("")
+        setUsername("")
         alert("Registration successful")
-        window.location.href = '/'
+        setRedirect(true)
+      }
+      else{
+        console.log("Registration failed")
       }
     } catch (error) {
       console.log(error)
     }
   }
-  
+  if (redirect) return <Navigate to={"/"} />
   return (
     <form onSubmit={register}>
       <h2>Register </h2>

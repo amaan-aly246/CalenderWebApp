@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react"
 import { DataContext } from "../../Context/DataContext"
 import { fetchEventDates } from "./fetchEventDates"
+
 const RenderDates = ({
   firstDayOfMonth,
   totalDaysInMonth,
   monthIndex,
   year,
 }) => {
-  const { updateData } = useContext(DataContext)
+  const { setDateID, isLogin } = useContext(DataContext)
   const [dateInfo, setDateInfo] = useState("")
   const todaysDate = new Date().getDate()
   const currentMonth = new Date().getMonth()
@@ -15,16 +16,22 @@ const RenderDates = ({
   const [eventDates, setEventDates] = useState([])
 
   useEffect(() => {
-    fetchEventDates().then((date) => setEventDates(date))
-  }, [])
-  const handleClick = async (e) => {
-    setDateInfo(e.currentTarget.id)
-  }
+    fetchEventDates(setEventDates)
+    if (!isLogin) {
+      setEventDates([])
+    }
+  }, [isLogin])
 
   useEffect(() => {
-    updateData(dateInfo)
+    setDateID(dateInfo)
+   
   }, [dateInfo])
 
+  const handleClick = (e) => {
+    setDateInfo(e.currentTarget.id)
+    // console.log('concatenateString', e.currentTarget.id)
+    // console.log('includes ', eventDates.includes(e.currentTarget.id))
+  }
   const dates = []
 
   // empty space before the first
@@ -34,7 +41,7 @@ const RenderDates = ({
 
   // dates of the current month
   for (var i = 1; i <= totalDaysInMonth; i++) {
-    i = i.toString() // Convert i to a string
+    i = i.toString()
     i.length === 1 ? (i = "0" + i) : i
     monthIndex.toString().length === 1
       ? (monthIndex = "0" + monthIndex)
@@ -43,7 +50,7 @@ const RenderDates = ({
       .toString()
       .concat(monthIndex.toString(), year.toString())
 
-    i = parseInt(i) // Parse i as an integer again
+    i = parseInt(i)
     monthIndex = parseInt(monthIndex)
     const isToday =
       todaysDate === i && monthIndex === currentMonth && year === currentYear
