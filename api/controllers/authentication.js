@@ -1,7 +1,10 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import User from '../models/User.js'
+
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
+import { config } from 'dotenv';
+config()
 const secret = process.env.ACCESS_SECRET_TOKEN
 
 const register = async (req, res) => {
@@ -48,10 +51,10 @@ const user = async (req, res) => {
     }
 }
 
-const logOut = async ( req, res )=>{
-  res.cookie('token', '').status(200).json({message: "logout successful"});
+const logOut = async (req, res) => {
+    res.cookie('token', '').status(200).json({ message: "logout successful" });
 }
 
-module.exports = { register, login, user , logOut };
+export { register, login, user, logOut };
 
 

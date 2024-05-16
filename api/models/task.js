@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const TaskSchema = new mongoose.Schema({
     title: {
@@ -35,5 +35,5 @@ const TaskSchema = new mongoose.Schema({
 
 
 
-
-module.exports = mongoose.model('Task', TaskSchema);    // Task is the name of the collection in the database
+export default mongoose.model('Task', TaskSchema)
+    // Task is the name of the collection in the database

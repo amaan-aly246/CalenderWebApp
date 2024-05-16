@@ -1,12 +1,14 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const tasks = require('./routes/tasks');
-const auth = require('./routes/authentication')
-const connectDB = require('./Database/connect');
-const cookieParser = require('cookie-parser');
+import express from 'express'
+import cors from 'cors'
+import tasks from './routes/tasks.js'
+import auth from './routes/authentication.js'
+import connectDB from './Database/connect.js';
+import cookieParser from 'cookie-parser';
 const port = process.env.PORT || 3000;
-require('dotenv').config();
+import { config } from 'dotenv';
+config()
+const app = express();
+
 // Middleware
 app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
 app.use(express.json());
